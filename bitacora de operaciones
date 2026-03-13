@@ -1,19 +1,30 @@
 package domain.model;
 
-public class ProductoBancario {
+import java.util.Date;
+import java.util.Map;
 
-    private String codigoProducto;
-    private String nombreProducto;
-    private String categoria;
-    private boolean requiereAprobacion;
+public class BitacoraOperacion {
 
-    public ProductoBancario(String codigoProducto, String nombreProducto,
-                            String categoria, boolean requiereAprobacion) {
+    private String idBitacora;
+    private String tipoOperacion;
+    private Date fechaHoraOperacion;
+    private int idUsuario;
+    private String rolUsuario;
+    private String idProductoAfectado;
+    private Map<String, Object> datosDetalle;
 
-        this.codigoProducto = codigoProducto;
-        this.nombreProducto = nombreProducto;
-        this.categoria = categoria;
-        this.requiereAprobacion = requiereAprobacion;
+    public BitacoraOperacion(String idBitacora, String tipoOperacion,
+                             int idUsuario, String rolUsuario,
+                             String idProductoAfectado,
+                             Map<String, Object> datosDetalle) {
+
+        this.idBitacora = idBitacora;
+        this.tipoOperacion = tipoOperacion;
+        this.fechaHoraOperacion = new Date();
+        this.idUsuario = idUsuario;
+        this.rolUsuario = rolUsuario;
+        this.idProductoAfectado = idProductoAfectado;
+        this.datosDetalle = datosDetalle;
     }
 
 }
