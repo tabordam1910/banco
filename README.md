@@ -23,4 +23,10 @@ The following business requirements have been implemented within the domain serv
 * **Language:** Java
 * **Design Pattern:** Clean Architecture / Domain-Driven Design (DDD)
 * **Development Environment:** Visual Studio Code
-* **Version Control:** Gits
+* **Version Control:** Git
+
+## Installation and Setup
+1. Clone the repository to your local machine.
+2. Open the root folder using **Visual Studio Code**.
+3. Ensure the **Extension Pack for Java** is installed for proper syntax highlighting and project management.
+4. The project structure follows the standard Maven/Gradle layout: `src/main/java`.
