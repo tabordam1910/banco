@@ -6,17 +6,21 @@ import com.bank.domain.exceptions.BusinessRuleException;
 
 public class AccountDomainService {
 
-    public void validateAccountOpening(User user) {
-        // Rule: Cannot open account if user is Inactive or Blocked [cite: 116]
+    /**
+     * Rule: Validate that a user can actually open a new account[cite: 255].
+     */
+    public void validateUserForNewAccount(User user) {
         if ("Inactive".equalsIgnoreCase(user.getUserStatus()) || "Blocked".equalsIgnoreCase(user.getUserStatus())) {
-            throw new BusinessRuleException("Cannot open account for inactive or blocked users.");
+            throw new BusinessRuleException("Cannot open an account for an inactive or blocked user.");
         }
     }
 
-    public void verifyAccountOperational(Account account) {
-        // Rule: No operations allowed on Blocked or Cancelled accounts [cite: 119]
+    /**
+     * Rule: Prevent operations on blocked or cancelled accounts.
+     */
+    public void verifyAccountStatus(Account account) {
         if ("Blocked".equalsIgnoreCase(account.getAccountStatus()) || "Cancelled".equalsIgnoreCase(account.getAccountStatus())) {
-            throw new BusinessRuleException("Account is not active for transactions.");
+            throw new BusinessRuleException("Operation denied: Account is blocked or cancelled.");
         }
     }
 }
