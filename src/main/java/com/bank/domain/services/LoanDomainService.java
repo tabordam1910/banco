@@ -6,21 +6,29 @@ import com.bank.domain.exceptions.BusinessRuleException;
 
 public class LoanDomainService {
 
+    /**
+     * Rule: Only loans in 'Under Review' status can be approved[cite: 217, 260].
+     */
     public void approveLoan(Loan loan) {
-        // Rule: Only loans "Under Review" can be approved [cite: 121]
         if (!"Under Review".equalsIgnoreCase(loan.getLoanStatus())) {
             throw new BusinessRuleException("Only loans under review can be approved.");
         }
         loan.setLoanStatus("Approved");
     }
 
+    /**
+     * Rule: Execute disbursement only if approved and update account balance[cite: 220, 221].
+     */
     public void processDisbursement(Loan loan, Account destinationAccount) {
-        // Rule: Disbursement only possible from "Approved" state [cite: 123]
         if (!"Approved".equalsIgnoreCase(loan.getLoanStatus())) {
-            throw new BusinessRuleException("Loan must be approved before disbursement.");
+            throw new BusinessRuleException("Loan must be in 'Approved' status to proceed with disbursement.");
         }
-        
-        // Rule: Target account must be active and increase balance [cite: 82]
+
+        if (!"Active".equalsIgnoreCase(destinationAccount.getAccountStatus())) {
+            throw new BusinessRuleException("Target account for disbursement is not active.");
+        }
+
+        // Financial Impact: Increase destination balance [cite: 221]
         destinationAccount.setBalance(destinationAccount.getBalance() + loan.getApprovedAmount());
         loan.setLoanStatus("Disbursed");
     }

@@ -6,28 +6,34 @@ import com.bank.domain.exceptions.BusinessRuleException;
 
 public class TransferDomainService {
 
-    private static final double CORPORATE_LIMIT = 10000.0; // Business Rule Threshold [cite: 85]
+    // Defined Business Rule Threshold [cite: 175, 224]
+    private static final double CORPORATE_APPROVAL_THRESHOLD = 10000.0; 
 
-    public void initiateTransfer(Transfer transfer, Account source) {
-        // Rule: If amount exceeds threshold, set to "Pending Approval" [cite: 87]
-        if (transfer.getAmount() > CORPORATE_LIMIT) {
+    /**
+     * Rule: Check if transfer requires manual approval based on amount[cite: 226].
+     */
+    public void initiateTransfer(Transfer transfer, Account sourceAccount) {
+        if (transfer.getAmount() > CORPORATE_APPROVAL_THRESHOLD) {
             transfer.setTransferStatus("Pending Approval");
         } else {
-            executeFundsMovement(transfer, source, null);
+            transfer.setTransferStatus("Executed");
         }
     }
 
-    public void executeFundsMovement(Transfer transfer, Account source, Account destination) {
-        // Rule: Validate sufficient balance [cite: 91]
+    /**
+     * Rule: Execute the actual movement of funds[cite: 232, 263].
+     */
+    public void commitTransfer(Transfer transfer, Account source, Account destination) {
         if (source.getBalance() < transfer.getAmount()) {
-            throw new BusinessRuleException("Insufficient funds.");
+            throw new BusinessRuleException("Insufficient funds in source account.");
         }
 
-        // Rule: Update balances [cite: 124, 125]
         source.setBalance(source.getBalance() - transfer.getAmount());
+        
         if (destination != null) {
             destination.setBalance(destination.getBalance() + transfer.getAmount());
         }
+        
         transfer.setTransferStatus("Executed");
     }
 }
