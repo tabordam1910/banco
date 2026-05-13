@@ -1,16 +1,37 @@
 package com.bank.domain.entities;
 
-import java.time.LocalDateTime;
+import com.bank.domain.Enums.LoanStatus;
+import java.math.BigDecimal;
 
 public class Loan {
-    private int loanId;
-    private double approvedAmount;
-    private String loanStatus; // Under Review, Approved, Rejected, Disbursed
-    private String targetAccountNumber;
+    private String loanId;
+    private BigDecimal amountApproved;
+    private LoanStatus status;
 
-    // Getters and Setters
-    public String getLoanStatus() { return loanStatus; }
-    public void setLoanStatus(String status) { this.loanStatus = status; }
-    public double getApprovedAmount() { return approvedAmount; }
-    public String getTargetAccountNumber() { return targetAccountNumber; }
+    public Loan(String loanId, BigDecimal amountApproved) {
+        this.loanId = loanId;
+        this.amountApproved = amountApproved;
+        this.status = LoanStatus.IN_STUDY;
+    }
+
+    // Agrega este método para que el IDE vea que el campo SÍ se usa
+    public String getLoanId() {
+        return loanId;
+    }
+
+    public BigDecimal getAmountApproved() {
+        return amountApproved;
+    }
+
+    public void setAmountApproved(BigDecimal amountApproved) {
+        this.amountApproved = amountApproved;
+    }
+
+    public LoanStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(LoanStatus status) {
+        this.status = status;
+    }
 }
