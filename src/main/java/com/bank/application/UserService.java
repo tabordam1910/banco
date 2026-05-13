@@ -1,13 +1,26 @@
 package com.bank.application;
 
-import com.bank.domain.entities.BankAccount;
+import com.bank.domain.entities.User;
+import com.bank.domain.exceptions.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserService {
-    public void displayUserProfile(BankAccount account) {
-        System.out.println("======= USER PROFILE =======");
-        System.out.println("Holder: " + account.getHolderName()); // Ya no marcará error
-        System.out.println("Account: " + account.getAccountNumber());
-        System.out.println("Status: " + account.getStatus());
-        System.out.println("============================");
+    private List<User> users = new ArrayList<>();
+
+    public void createClient(User user) {
+        users.add(user);
+    }
+
+    public User findClient(String id) {
+        return users.stream()
+            .filter(u -> u.getUserId().equals(id))
+            .findFirst()
+            .orElseThrow(() -> new EntityNotFoundException("Client not found with ID: " + id));
+    }
+
+    public void deleteClient(String id) {
+        User user = findClient(id);
+        users.remove(user);
     }
 }
