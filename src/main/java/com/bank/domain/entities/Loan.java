@@ -14,7 +14,7 @@ public class Loan {
         this.status = LoanStatus.IN_STUDY;
     }
 
-    // Agrega este método para que el IDE vea que el campo SÍ se usa
+   
     public String getLoanId() {
         return loanId;
     }

@@ -11,7 +11,7 @@ public class Transfer {
         this.transferStatus = "Pending Approval";
     }
 
-    // Agregamos este Getter para que desaparezca la advertencia
+    
     public int getTransferId() {
         return transferId;
     }

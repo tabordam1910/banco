@@ -13,7 +13,7 @@ public class LoanDomainService {
     }
 
     public void executeDisbursement(Loan loan, BankAccount account) {
-        // Regla: Solo si está aprobado se entrega el dinero
+        
         if (loan.getStatus() == LoanStatus.APPROVED) {
             // Ahora getAmountApproved() ya no marcará error
             account.deposit(loan.getAmountApproved());

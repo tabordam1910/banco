@@ -2,8 +2,8 @@ package com.bank.domain.entities;
 
 public class Account {
     private String accountNumber;
-    private String accountType; // Ahorros, Corriente, etc.
-    private String ownerId;     // Referencia al ID del Cliente
+    private String accountType; 
+    private String ownerId;     
     private double balance;
     private String accountStatus;
 
