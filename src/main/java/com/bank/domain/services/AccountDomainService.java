@@ -1,18 +1,16 @@
 package com.bank.domain.services;
 
-import com.bank.domain.entities.BankAccount;
+import com.bank.domain.entities.Account;
 import com.bank.domain.Enums.AccountStatus;
 
 public class AccountDomainService {
 
-    
-    public boolean isTransactionAllowed(BankAccount account) {
-        AccountStatus status = account.getStatus();
-        return status != AccountStatus.BLOCKED && status != AccountStatus.CANCELLED;
+    public void blockAccount(Account account) {
+        // This will now work because both are AccountStatus type
+        account.setStatus(AccountStatus.BLOCKED);
     }
 
-    
-    public boolean validateInitialDeposit(double amount) {
-        return amount >= 0;
+    public void activateAccount(Account account) {
+        account.setStatus(AccountStatus.ACTIVE);
     }
 }

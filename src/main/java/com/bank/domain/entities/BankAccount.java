@@ -1,35 +1,59 @@
 package com.bank.domain.entities;
 
-import com.bank.domain.Enums.AccountStatus;
 import java.math.BigDecimal;
 
 public class BankAccount {
     private String accountNumber;
-    private String holderName; 
+    private String accountType;
+    private String ownerId;
     private BigDecimal balance;
-    private AccountStatus status;
+    private String status;
 
-    public BankAccount() {}
-
-    public BankAccount(String accountNumber, String holderName, BigDecimal balance, AccountStatus status) {
+    // This is the constructor the Main.java is looking for
+    public BankAccount(String accountNumber, String accountType, String ownerId) {
         this.accountNumber = accountNumber;
-        this.holderName = holderName;
+        this.accountType = accountType;
+        this.ownerId = ownerId;
+        this.balance = BigDecimal.ZERO; // Initialize with 0
+        this.status = "ACTIVE";
+    }
+
+    // Getters
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    // Setters
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    
+    // Business Logic Methods
     public void deposit(BigDecimal amount) {
-        if (amount != null && amount.compareTo(BigDecimal.ZERO) > 0) {
-            this.balance = this.balance.add(amount);
-        }
+        this.balance = this.balance.add(amount);
     }
 
-    
-    public String getAccountNumber() { return accountNumber; }
-    public String getHolderName() { return holderName; }
-    public BigDecimal getBalance() { return balance; }
-    public AccountStatus getStatus() { return status; }
-    
-    public void setBalance(BigDecimal balance) { this.balance = balance; }
+    public void withdraw(BigDecimal amount) {
+        this.balance = this.balance.subtract(amount);
+    }
 }
