@@ -1,35 +1,27 @@
 package com.bank.domain.services;
 
+import com.bank.domain.entities.BankAccount; // Importación corregida
 import com.bank.domain.entities.Loan;
-import com.bank.domain.entities.Account;
-import com.bank.domain.exceptions.BusinessRuleException;
+import com.bank.domain.Enums.LoanStatus;
 
 public class LoanDomainService {
 
     /**
-     * Rule: Only loans in 'Under Review' status can be approved[cite: 217, 260].
+     * Rule: A loan can only be approved if it is currently "IN_STUDY"[cite: 217, 260].
      */
     public void approveLoan(Loan loan) {
-        if (!"Under Review".equalsIgnoreCase(loan.getLoanStatus())) {
-            throw new BusinessRuleException("Only loans under review can be approved.");
+        if (loan.getStatus() == LoanStatus.IN_STUDY) {
+            loan.setStatus(LoanStatus.APPROVED);
         }
-        loan.setLoanStatus("Approved");
     }
 
     /**
-     * Rule: Execute disbursement only if approved and update account balance[cite: 220, 221].
+     * Rule: Disbursement increases account balance and updates status[cite: 221, 262].
      */
-    public void processDisbursement(Loan loan, Account destinationAccount) {
-        if (!"Approved".equalsIgnoreCase(loan.getLoanStatus())) {
-            throw new BusinessRuleException("Loan must be in 'Approved' status to proceed with disbursement.");
+    public void executeDisbursement(Loan loan, BankAccount account) {
+        if (loan.getStatus() == LoanStatus.APPROVED) {
+            account.deposit(loan.getAmountApproved());
+            loan.setStatus(LoanStatus.DISBURSED);
         }
-
-        if (!"Active".equalsIgnoreCase(destinationAccount.getAccountStatus())) {
-            throw new BusinessRuleException("Target account for disbursement is not active.");
-        }
-
-        // Financial Impact: Increase destination balance [cite: 221]
-        destinationAccount.setBalance(destinationAccount.getBalance() + loan.getApprovedAmount());
-        loan.setLoanStatus("Disbursed");
     }
 }

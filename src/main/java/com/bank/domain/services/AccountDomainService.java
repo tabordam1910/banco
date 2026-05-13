@@ -1,26 +1,23 @@
 package com.bank.domain.services;
 
-import com.bank.domain.entities.Account;
-import com.bank.domain.entities.User;
-import com.bank.domain.exceptions.BusinessRuleException;
+import com.bank.domain.entities.BankAccount;
+import com.bank.domain.Enums.AccountStatus;
 
 public class AccountDomainService {
 
     /**
-     * Rule: Validate that a user can actually open a new account[cite: 255].
+     * Rule: Checks if a transaction is allowed based on account status.
+     * Blocked or Cancelled accounts cannot perform operations.
      */
-    public void validateUserForNewAccount(User user) {
-        if ("Inactive".equalsIgnoreCase(user.getUserStatus()) || "Blocked".equalsIgnoreCase(user.getUserStatus())) {
-            throw new BusinessRuleException("Cannot open an account for an inactive or blocked user.");
-        }
+    public boolean isTransactionAllowed(BankAccount account) {
+        AccountStatus status = account.getStatus();
+        return status != AccountStatus.BLOCKED && status != AccountStatus.CANCELLED;
     }
 
     /**
-     * Rule: Prevent operations on blocked or cancelled accounts.
+     * Rule: Validates if the initial deposit meets the minimum requirement.
      */
-    public void verifyAccountStatus(Account account) {
-        if ("Blocked".equalsIgnoreCase(account.getAccountStatus()) || "Cancelled".equalsIgnoreCase(account.getAccountStatus())) {
-            throw new BusinessRuleException("Operation denied: Account is blocked or cancelled.");
-        }
+    public boolean validateInitialDeposit(double amount) {
+        return amount >= 0;
     }
 }
