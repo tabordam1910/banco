@@ -5,8 +5,26 @@ public class Transfer {
     private double amount;
     private String transferStatus; // Executed, Pending Approval, Expired
 
-    // Getters and Setters
-    public double getAmount() { return amount; }
-    public String getTransferStatus() { return transferStatus; }
-    public void setTransferStatus(String status) { this.transferStatus = status; }
+    public Transfer(int transferId, double amount) {
+        this.transferId = transferId;
+        this.amount = amount;
+        this.transferStatus = "Pending Approval";
+    }
+
+    // Agregamos este Getter para que desaparezca la advertencia
+    public int getTransferId() {
+        return transferId;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public String getTransferStatus() {
+        return transferStatus;
+    }
+
+    public void setTransferStatus(String status) {
+        this.transferStatus = status;
+    }
 }
